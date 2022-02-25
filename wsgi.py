@@ -5,7 +5,11 @@ app.secret_key = os.environ.get('SECRET_KEY')
 reg_name = re.compile('^[a-zA-Z0-9\-]+$')
 reg_key = re.compile('^KEY_[A-Z0-9]+$')
 reg_state = re.compile('^OFF$|^ON$')
-states = {'lichterkette': {'state' : 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER2"}}
+states = {
+	'lichterkette': {'state' : 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER2"},
+	'logitech-z906': {'state': 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER", "always_off": 1},
+	'teufel': {'state': 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER", "always_off": 1}
+	}
 
 
 @app.route("/")
@@ -24,7 +28,7 @@ def getState(name):
 def setState(name:str, state: str):
 	if(reg_name.match(name) and states[name] and reg_state.match(state)):
 		subprocess.run(["irsend", "SEND_ONCE", name, states[name][state]])
-		states[name]["state"] = state
+		states[name]["state"] = "OFF" if states[name]["always_off"] else state
 		return {"state": states[name]["state"]}
 	else:
 		return "Not found", 404
