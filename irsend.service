@@ -1,0 +1,14 @@
+[Unit]
+Description=irsend.service
+After=network.target
+ 
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/irsend
+Environment="FLASK_ENV=production"
+Environment="SECRET_KEY=REPLACE THIS BEFORE INSTALLING"
+ExecStart=/var/www/irsend/venv/bin/gunicorn --pythonpath=/var/www/irsend/venv/lib/python3.7/site-packages --workers 1 --bind unix:/var/www/irsend/irsend.sock wsgi:app
+ 
+[Install]
+WantedBy=multi-user.target
