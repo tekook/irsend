@@ -18,7 +18,7 @@ def welcome():
 
 @app.route("/state/<name>")
 def getState(name):
-	if(reg_name.match(name)) and states[name]:
+	if(reg_name.match(name)) and name in states:
 		return {"state": states[name]["state"]}
 	else:
 		return "Not found", 404
@@ -26,7 +26,7 @@ def getState(name):
 
 @app.route("/state/<name>/<state>")
 def setState(name:str, state: str):
-	if(reg_name.match(name) and states[name] and reg_state.match(state)):
+	if(reg_name.match(name) and name in states and reg_state.match(state)):
 		subprocess.run(["irsend", "SEND_ONCE", name, states[name][state]])
 		states[name]["state"] = "OFF" if states[name]["always_off"] else state
 		return {"state": states[name]["state"]}
