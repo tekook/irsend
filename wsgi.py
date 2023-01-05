@@ -7,7 +7,7 @@ reg_key = re.compile('^KEY_[A-Z0-9]+$')
 reg_state = re.compile('^OFF$|^ON$')
 states = {
 	'lichterkette': {'state' : 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER2", "always_off": 0},
-	'logitech-z906': {'state': 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER", "always_off": 1},
+	'logitech-z906': {'state': 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER", "always_off": 0},
 	'teufel': {'state': 'OFF', "ON": "KEY_POWER", "OFF": "KEY_POWER", "always_off": 1}
 	}
 
